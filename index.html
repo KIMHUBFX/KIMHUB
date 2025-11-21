@@ -1,272 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Trading Bot Platform — Prototype</title>
-  <meta name="description" content="Prototype HTML for a trading-bots platform: backend, database, strategy builder, execution engine, broker integration, auth, and dashboard.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIMHUBFX - Start Earning Today</title>
+  <meta property="og:title" content="KIMHUBFX - Start Earning Today">
+  <meta property="og:description" content="Join KIMHUBFX and start earning instantly! Use my referral link to get started.">
+  <meta property="og:image" content="https://yourdomain.com/logo.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="https://yourdomain.com/favicon.png">
+
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;--accent:#00c2a8;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071226 0%,#08121a 100%);color:#e6eef6}
-    .container{max-width:1100px;margin:28px auto;padding:20px}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#2dd4bf);display:flex;align-items:center;justify-content:center;font-weight:700;color:#042027}
-    nav a{color:var(--muted);text-decoration:none;margin-left:14px}
+    /* Basic Reset */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f9f9f9; line-height:1.6; scroll-behavior: smooth; }
+    a { text-decoration:none; }
 
-    .grid{display:grid;grid-template-columns:1fr 340px;gap:20px}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);padding:18px;border-radius:12px;box-shadow:0 6px 30px rgba(2,6,23,0.6)}
-    h2{margin:0 0 8px 0}
-    p.muted{color:var(--muted);margin:0 0 12px 0}
+    /* Header / Hero */
+    header { background:#1a73e8; color:white; padding:80px 20px; text-align:center; position:relative; overflow:hidden; }
+    header h1 { font-size:3rem; margin-bottom:20px; }
+    header p { font-size:1.3rem; margin-bottom:30px; }
+    .btn { background:#ffcc00; color:#000; padding:15px 30px; font-size:1.2rem; border-radius:8px; display:inline-block; transition:0.3s; cursor:pointer; }
+    .btn:hover { background:#ffaa00; }
 
-    /* Feature list */
-    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
-    .feature{background:var(--glass);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)}
-    .feature h4{margin:0;font-size:14px}
-    .feature p{margin:6px 0 0 0;color:var(--muted);font-size:13px}
+    /* Section */
+    section { padding:80px 20px; text-align:center; }
+    section h2 { font-size:2.5rem; margin-bottom:40px; }
 
-    /* Strategy builder */
-    .builder{display:flex;flex-direction:column;gap:10px}
-    textarea, input[type=text], select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    .row{display:flex;gap:10px}
-    .row > *{flex:1}
-    .btn{display:inline-block;padding:9px 14px;border-radius:8px;border:none;background:var(--accent);color:#023233;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    /* Counters */
+    .counters { display:flex; flex-wrap:wrap; justify-content:center; gap:40px; margin-top:40px; }
+    .counter { background:white; padding:30px 50px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); min-width:150px; }
+    .counter h2 { font-size:2rem; margin-bottom:10px; color:#1a73e8; }
 
-    /* Dashboard small */
-    .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-    .stat{padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);text-align:center}
-    .stat strong{display:block;font-size:18px}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{padding:8px 10px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.03);font-size:13px}
+    /* Dashboard Widget */
+    .dashboard-widget { background:white; padding:30px; border-radius:12px; max-width:500px; margin:20px auto; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    input, button { font-size:1rem; padding:12px; margin:10px 0; width:100%; border-radius:8px; border:1px solid #ccc; }
+    button { background:#1a73e8; color:white; border:none; cursor:pointer; transition:0.3s; }
+    button:hover { background:#155cb0; }
 
-    /* Right column */
-    .right .mini-card{margin-bottom:12px}
-    .compact-list{list-style:none;padding:0;margin:0}
-    .compact-list li{padding:10px;border-radius:8px;background:rgba(255,255,255,0.015);margin-bottom:8px;color:var(--muted);font-size:13px}
+    /* Footer */
+    footer { background:#222; color:white; padding:30px 20px; text-align:center; }
+    footer a { color:#ffcc00; margin:0 10px; }
 
-    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+    /* Responsive */
+    @media (max-width:768px){
+      header h1 { font-size:2.2rem; }
+      header p { font-size:1.1rem; }
+      .counters { flex-direction:column; }
+    }
 
-    @media (max-width:900px){.grid{grid-template-columns:1fr}.right{order:2}}
+    /* Animations */
+    .fade-in { opacity:0; transform:translateY(20px); transition: all 0.8s ease-out; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="brand">
-        <div class="logo">TB</div>
-        <div>
-          <div style="font-weight:700">Trading Bots Platform (Prototype)</div>
-          <div style="font-size:13px;color:var(--muted)">Backend · Database · Strategy Builder · Execution Engine · Broker Integration · Auth · Dashboard</div>
-        </div>
-      </div>
-      <nav>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#builder">Strategy Builder</a>
-        <a href="#execution">Execution</a>
-        <a href="#integration">Broker</a>
-      </nav>
-    </header>
 
-    <main class="grid">
-      <section>
-        <div class="card">
-          <h2 id="dashboard">Platform overview</h2>
-          <p class="muted">This HTML is a front-end prototype. Server-side endpoints, database schemas and broker API integration should be implemented in your backend (see comments in the Strategy Builder and Broker sections).</p>
+<!-- Header / Hero -->
+<header>
+  <h1 class="fade-in">Welcome to KIMHUBFX</h1>
+  <p class="fade-in" style="transition-delay:0.2s;">Start earning instantly! Use my referral link to join.</p>
+  <a class="btn fade-in" style="transition-delay:0.4s;" href="https://deriv.partners/rx?ca=kimhuhfx.com&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU154142" target="_blank">Get Started</a>
+</header>
 
-          <div class="features">
-            <div class="feature">
-              <h4>1. Backend / Server</h4>
-              <p>Runs bots, schedules tasks, exposes REST/WebSocket endpoints for the UI and execution engine.</p>
-            </div>
-            <div class="feature">
-              <h4>2. Database</h4>
-              <p>Store users, strategies, trades and logs (SQL or NoSQL). Support migrations & backups.</p>
-            </div>
-            <div class="feature">
-              <h4>3. Strategy Builder</h4>
-              <p>Visual UI to assemble strategy rules, indicators, and risk settings (save/load JSON).</p>
-            </div>
-            <div class="feature">
-              <h4>4. Execution Engine</h4>
-              <p>Scheduler/worker that evaluates strategies and sends orders to broker APIs.</p>
-            </div>
-            <div class="feature">
-              <h4>5. Broker Integration</h4>
-              <p>Plugin-able adapters (Deriv, Binance, etc.) that translate strategy actions to real orders.</p>
-            </div>
-            <div class="feature">
-              <h4>6. Auth & Accounts</h4>
-              <p>OAuth / JWT authentication and role-based access (user, admin, dev).</p>
-            </div>
-          </div>
-
-          <hr style="margin:14px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
-
-          <h3>Quick stats</h3>
-          <div class="stat-grid">
-            <div class="stat"><small class="muted">Live bots</small><strong id="stat-bots">—</strong></div>
-            <div class="stat"><small class="muted">Connected brokers</small><strong id="stat-brokers">—</strong></div>
-            <div class="stat"><small class="muted">Today's P/L</small><strong id="stat-pl">—</strong></div>
-          </div>
-
-          <h3 style="margin-top:14px">Recent trades</h3>
-          <table id="trades-table">
-            <thead>
-              <tr><th>Time</th><th>Bot</th><th>Symbol</th><th>Side</th><th>Qty</th><th>Result</th></tr>
-            </thead>
-            <tbody>
-              <!-- Example row - replace with server-side data -->
-              <tr><td>2025-11-21 10:00</td><td>MeanRevert001</td><td>EURUSD</td><td>Buy</td><td>0.05</td><td>+12.5</td></tr>
-            </tbody>
-          </table>
-
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <h2 id="builder">Bot Strategy Builder</h2>
-          <p class="muted">Create or edit strategy logic. Save as JSON to your backend. The "Run" button will send the strategy to the execution engine (via API).</p>
-
-          <div class="builder">
-            <label>Strategy name</label>
-            <input type="text" id="strategy-name" placeholder="e.g. Breakout-Scalper-v1">
-
-            <label>Trigger rule (simple expression)</label>
-            <input type="text" id="strategy-rule" placeholder="e.g. rsi(14) < 30 and close > sma(20)">
-
-            <label>Position sizing (JSON)</label>
-            <textarea id="strategy-size" rows="4">{"risk":0.01,"maxPositions":3}</textarea>
-
-            <div class="row">
-              <button class="btn" id="save-strategy">Save strategy</button>
-              <button class="btn ghost" id="export-strategy">Export JSON</button>
-            </div>
-
-            <small class="muted">Backend endpoints (suggestions):</small>
-            <ul class="compact-list" style="margin-top:8px">
-              <li><code>POST /api/strategies</code> — save strategy JSON</li>
-              <li><code>GET  /api/strategies/:id</code> — fetch strategy</li>
-              <li><code>POST /api/execute/:strategyId</code> — ask execution engine to run once</li>
-            </ul>
-
-            <!-- Implementation note commented for developers -->
-            <!--
-              Strategy JSON example:
-              {
-                "id": "uuid",
-                "name": "Breakout-Scalper-v1",
-                "rule": "rsi(14) < 30 and close > sma(20)",
-                "size": {"risk":0.01},
-                "symbols": ["EURUSD"],
-                "enabled": true
-              }
-
-              Server should validate rules, compile/parse expressions, and store into DB.
-            -->
-
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:16px">
-          <h2 id="execution">Execution Engine (Workers)</h2>
-          <p class="muted">Engine responsibilities:</p>
-          <ul class="compact-list">
-            <li>Poll market data (or subscribe via streaming)</li>
-            <li>Evaluate enabled strategies</li>
-            <li>Place/cancel orders via broker adapters</li>
-            <li>Log actions to database & push events via WebSocket to UI</li>
-          </ul>
-
-          <h4 style="margin-top:8px">Suggested components</h4>
-          <div class="features" style="grid-template-columns:repeat(3,1fr)">
-            <div class="feature"><h4>Scheduler</h4><p>Queue and run jobs reliably (e.g. Celery / RQ / Sidekiq)</p></div>
-            <div class="feature"><h4>Worker</h4><p>Isolated process for strategy evaluation</p></div>
-            <div class="feature"><h4>Streamer</h4><p>Market data subscriber (WebSocket)</p></div>
-          </div>
-
-        </div>
-      </section>
-
-      <aside class="right">
-        <div class="card mini-card">
-          <h3>Broker / API Integration</h3>
-          <p class="muted">Adapter pattern recommended. Example: Deriv, Binance, MetaTrader, FIX.</p>
-          <ul class="compact-list">
-            <li>Store API keys encrypted server-side</li>
-            <li>Permission scopes (trade/read)</li>
-            <li>Testnet & live mode toggle</li>
-          </ul>
-
-          <!-- Developer note: show where to plug in code -->
-          <!-- Example server endpoint: POST /api/brokers/connect -> store credentials; POST /api/brokers/:id/order -> place order (worker uses this)
-               Keep secrets out of front-end (never store API keys in browser localStorage unless encrypted!). -->
-        </div>
-
-        <div class="card mini-card">
-          <h3>User Accounts & Authentication</h3>
-          <p class="muted">Support signup/login, email verification, password reset and session management.</p>
-          <ul class="compact-list">
-            <li>Use JWT + refresh tokens or server sessions</li>
-            <li>2FA for trading actions</li>
-            <li>Role-based access: user, admin</li>
-          </ul>
-        </div>
-
-        <div class="card mini-card">
-          <h3>Dashboard / Analytics</h3>
-          <p class="muted">Visualize bot performance, drawdowns, trade history and balance over time.</p>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn ghost" id="btn-sim">Simulate</button>
-            <button class="btn" id="btn-live">Go Live</button>
-          </div>
-        </div>
-
-        <div class="card mini-card">
-          <h3>Quick links</h3>
-          <ul style="padding-left:14px;margin:10px 0;color:var(--muted)">
-            <li><a href="#builder">Open Strategy Builder</a></li>
-            <li><a href="#execution">Execution Engine</a></li>
-            <li><a href="#integration">Broker docs</a></li>
-          </ul>
-        </div>
-      </aside>
-    </main>
-
-    <footer>
-      Prototype HTML — integrate with a backend (Node/Express, Python/Flask, Django, or Go). If you want, I can also generate a matching backend scaffold (API routes + DB schema).
-    </footer>
+<!-- Counters -->
+<section>
+  <h2 class="fade-in">Our Community</h2>
+  <div class="counters fade-in">
+    <div class="counter">
+      <h2 id="users">0</h2>
+      <p>Users Online</p>
+    </div>
+    <div class="counter">
+      <h2 id="earnings">0</h2>
+      <p>Total Payouts</p>
+    </div>
+    <div class="counter">
+      <h2 id="referrals">0</h2>
+      <p>Referrals</p>
+    </div>
   </div>
+</section>
 
-  <script>
-    // Small front-end behavior mock (no real backend)
-    document.getElementById('save-strategy').addEventListener('click', ()=>{
-      const name = document.getElementById('strategy-name').value || 'Unnamed';
-      const rule = document.getElementById('strategy-rule').value || '';
-      const size = document.getElementById('strategy-size').value || '{}';
-      try{
-        JSON.parse(size);
-      }catch(e){alert('Position sizing must be valid JSON');return}
-      alert('Strategy saved locally (prototype). To persist, POST JSON to /api/strategies.');
+<!-- Signup Form -->
+<section>
+  <h2 class="fade-in">Join Now</h2>
+  <div class="dashboard-widget fade-in">
+    <form action="#" method="POST" id="signupForm">
+      <input type="email" placeholder="Enter your email" required>
+      <input type="password" placeholder="Enter password" required>
+      <input type="hidden" value="112604" name="partner_id">
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+</section>
+
+<!-- Referral Widget -->
+<section>
+  <h2 class="fade-in">Share Your Referral Link</h2>
+  <div class="dashboard-widget fade-in">
+    <p>Copy and share your referral link:</p>
+    <input type="text" value="https://deriv.partners/rx?ca=kimhuhfx.com&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU154142" readonly id="referralLink">
+    <button onclick="copyReferral()">Copy Link</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 KIMHUBFX. All rights reserved.</p>
+  <p><a href="#">Terms</a> | <a href="#">Privacy Policy</a></p>
+</footer>
+
+<script>
+  // Scroll Animation
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold:0.2, rootMargin:"0px 0px -50px 0px" };
+  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll){
+    entries.forEach(entry=>{
+      if(!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      appearOnScroll.unobserve(entry.target);
     });
+  }, appearOptions);
+  faders.forEach(fader => appearOnScroll.observe(fader));
 
-    document.getElementById('export-strategy').addEventListener('click', ()=>{
-      const payload = {
-        name: document.getElementById('strategy-name').value || 'Unnamed',
-        rule: document.getElementById('strategy-rule').value || '',
-        size: JSON.parse(document.getElementById('strategy-size').value || '{}')
-      };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = (payload.name||'strategy') + '.json'; a.click();
-      URL.revokeObjectURL(url);
-    });
+  // Copy referral link
+  function copyReferral(){
+    const copyText = document.getElementById("referralLink");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Referral link copied!");
+  }
 
-    // Fill quick stats with example values (replace by API calls to backend)
-    document.getElementById('stat-bots').textContent = '4';
-    document.getElementById('stat-brokers').textContent = '1 (Deriv-test)';
-    document.getElementById('stat-pl').textContent = '+$128.50';
+  // Animate Counters
+  const counters = { users: 12345, earnings: 678901, referrals: 1234 };
+  Object.keys(counters).forEach(id => {
+    let el = document.getElementById(id);
+    let count = 0;
+    let increment = Math.ceil(counters[id] / 200);
+    let interval = setInterval(() => {
+      count += increment;
+      if(count >= counters[id]) { count = counters[id]; clearInterval(interval); }
+      el.innerText = id === "earnings" ? "$" + count.toLocaleString() : count.toLocaleString();
+    }, 20);
+  });
+</script>
 
-  </script>
 </body>
-    </html>
+</html>
