@@ -1,0 +1,38 @@
+import DerivAPI from "deriv-api";
+
+let client;
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { action, params } = req.body;
+
+  try {
+    // Initialize Deriv API client if not connected
+    if (!client) {
+      client = new DerivAPI({ app_id: 112604, language: "EN" });
+      await client.connect();
+    }
+
+    if (action === "buy") {
+      const { amount, symbol, duration, duration_unit, prediction } = params;
+
+      const buy_response = await client.buy({
+        amount,
+        contract_type: prediction,
+        symbol,
+        duration,
+        duration_unit,
+      });
+
+      return res.status(200).json({ success: true, result: buy_response });
+    }
+
+    return res.status(400).json({ error: "Unknown action" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: err.message });
+  }
+}
